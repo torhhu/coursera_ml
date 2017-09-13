@@ -22,12 +22,28 @@ p = zeros(size(X, 1), 1);
 %
 
 
+% first calculate the values for the hidden layer, then use those as input to
+% the output layer
 
+% define a1 as X'
+a1 = X'; %this is a 400 x m matrix in our example
+% add ones to a1
+a1 = [ones(1, size(a1, 2)); a1];
 
+%calculate a2 as sigmoid(Theta1 * a1)
 
+a2 = sigmoid(Theta1 * a1); % this should return a 25 x m+1 matrix
 
+% add ones to a2
+a2 = [ones(1, size(a2, 2)); a2];
 
+% a3 is the output layer
+a3 = sigmoid(Theta2 * a2);
 
+% we find and return the indices for the predictions as in the previous example
+[nn_max_val, nn_max_ix] = max(a3);
+
+p = nn_max_ix';
 
 % =========================================================================
 

@@ -37,12 +37,15 @@ grad = zeros(size(theta));
 %
 
 
+% starting with unregularized
+h = sigmoid(X*theta); % our hypothesis
 
+% let's create a new regularization theta with 0 for the first element
+theta_reg = [0; theta(2:size(theta))];
 
+J = (1/m) * (-y' * log(h) - (1-y)' * log(1-h)) + (lambda/(2*m))* theta_reg' * theta_reg; % adding regularization term, will be 0 for the theta_0
 
-
-
-
+grad = (1/m) * (X' * (h - y)+ lambda*theta_reg);
 
 
 % =============================================================

@@ -30,10 +30,18 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+% this will give us a matrix (num_labels x m). For our sample data of 5000
+% images the first column will contain the predictions for sample 1. Row 1 
+% is the prediction for the number 1, row 10 is the prediction for the number 10.
+predictions = all_theta * X';
 
+% max(predictions) will give us a row vector with the maximum value for each
+% column, not what we want. But if we call max with two arguments, the second
+% will return a row vector containing the index of each max value.
+[max_pred_val, max_pred_ix] = max(predictions);
 
-
-
+% we need to transpose the max_pred_ix vector to return it as a column
+p = max_pred_ix';
 
 
 % =========================================================================
