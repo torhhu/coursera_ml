@@ -39,6 +39,35 @@ Theta2_grad = zeros(size(Theta2));
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
 %
+
+% we have a network with three layers (input, hidden, and output
+% we would like to compute h = a3
+% define a1 as X'
+a1 = [ones(1, m); X']; % 401 * m
+z2 = Theta1 * a1; % calculating z2, 25 * m
+
+
+% calculating a2 as sigmoid of z2 + ones
+a2 = [ones(1, m); sigmoid(z2)]; % 26 * m
+
+% a3 is the output layer
+a3 = sigmoid(Theta2 * a2); % 10 * m
+
+
+% we have y as a vector, let's create the matrix Y, where Y[i] := i == y
+Y = zeros(num_labels, m);
+Y(sub2ind(size(Y), y', 1:m)) = 1; % 10 * m
+
+
+% calculate the unregularized cost function
+J = (1/m) * sum(sum(-Y .* log(a3) - (1 - Y) .* log(1 - a3)));
+
+% add regularization error, dropping bias terms in the first columns
+J = J + (lambda / (2*m)) * sum(sum(Theta1(:, 2:end) .^2)); % cost from first layer
+J = J + (lambda / (2*m)) * sum(sum(Theta2(:, 2:end) .^2)); % cost from second layer
+
+
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -54,6 +83,17 @@ Theta2_grad = zeros(size(Theta2));
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+% vectorized solution
+% we can calculate d3 directly
+d3 = a3 - Y; % 10 x m
+
+% from lecture slides: d2 = theta2' * d3 .* sigmoidgrad(z2)
+d2 = Theta2' * d3 .* [ones(1, m); sigmoidGradient(z2)]; % adding ones for the bias unit to sigmodgrad
+
+Theta2_grad = (1/m) * d3 * a2';
+Theta1_grad = (1/m) * d2(2:end, :) * a1';
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -62,23 +102,13 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+% add regularization
+Theta2 = (lambda/m) * Theta2;
+Theta2(:, 1) = 0;
+Theta2_grad = Theta2_grad + Theta2;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%one liner
+Theta1_grad = Theta1_grad + (lambda / m) * [zeros(size(Theta1, 1), 1), Theta1(:, 2:end)];
 
 % -------------------------------------------------------------
 

@@ -20,12 +20,17 @@ grad = zeros(size(theta));
 %
 
 
+predictions = X*theta;	% calculate the predicted values from our hypothesis on all m examples
+sqrErrors = (predictions-y) .^2; % squared errors, element wise
 
 
+% add regularization
+% let's create a new regularization theta with 0 for the first element
+theta_reg = [0; theta(2:size(theta))];
 
+J = 1/(2*m) * sum(sqrErrors) + (lambda/(2*m))* theta_reg' * theta_reg; % adding regularization term, will be 0 for the theta_0
 
-
-
+grad = (1/m) * (X' * (predictions - y)+ lambda*theta_reg);
 
 
 

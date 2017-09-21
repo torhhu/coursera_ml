@@ -53,8 +53,16 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
-
-
+% calculating the training set error and cross validation error for different number (i) of training samples
+for i = 1:m
+  % calculate the thetas using i samples
+    [theta] = trainLinearReg(X(1:i, :), y(1:i), lambda);
+    % Pass lambda = 0 for the non-regularized training error.
+    [Jv, _] = linearRegCostFunction(Xval, yval, theta, 0);
+    error_val(i) = Jv;
+    [Jt, _] = linearRegCostFunction(X(1:i, :), y(1:i), theta, 0);
+    error_train(i) = Jt;
+end
 
 
 
