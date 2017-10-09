@@ -99,9 +99,10 @@ while ~isempty(email_contents)
 
 
 
-
-
-
+idx = find(ismember(vocabList, str));
+ % if idx != null
+   word_indices = [word_indices; idx];
+  %end 
 
 
 
