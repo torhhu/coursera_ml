@@ -16,7 +16,9 @@ sim = 0;
 %
 %
 
+d = norm(x1-x2,2);
 
+sim = exp(-d^2/(2*sigma^2));
 
 
 
