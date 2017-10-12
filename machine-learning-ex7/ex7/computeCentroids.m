@@ -27,11 +27,18 @@ centroids = zeros(K, n);
 %
 
 
+for x_i = 1:K
+% all indices in X that has idx=x_i calculate mean
+% this finds the indices of all the examples in X that has centroid x_i as closest centroid
+ind = find(ismember(idx, x_i));
+
+% calculate the mean of all these values
+centroid_mean = mean(X(ind, :));
+
+centroids(x_i, :) = centroid_mean;
 
 
-
-
-
+end
 
 % =============================================================
 

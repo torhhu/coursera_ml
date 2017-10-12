@@ -21,8 +21,27 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+% we loop over all the examples x_i in X
+for x_i = 1:size(X,1)
+  x = X(x_i, :);
 
+  % Find closest centroid for x_i.
+  closest_centroid_dist = Inf;
+  % loop over all the K centroids
+  for mu_i = 1:K
+    % Calculate distance to centroid mu_i
+    % Set mu = coordinates of centroid mu_i
+    mu = centroids(mu_i, :);
+    % calculate the dot product of vector x - mu = ||x - mu||^2
+    d = dot(x - mu, x - mu);
+    % update the value of the idx vector for the sample x_i to the closest centroid (index)
+    if d < closest_centroid_dist
+      closest_centroid_dist = d;
+      idx(x_i) = mu_i;
+    end
+  end
 
+end
 
 
 

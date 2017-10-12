@@ -52,6 +52,7 @@ for i=1:max_iters
     end
     
     % Given the memberships, compute new centroids
+    %fprintf('Values used in input K: %d/\n', K);
     centroids = computeCentroids(X, idx, K);
 end
 
